@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>네오-쿄토 :: Neo-Kyoto</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, sans-serif;
+            background: #0a0a0f;
+            color: #e5e5e5;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            background: #0a0a0f;
+            border-bottom: 1px solid rgba(6, 182, 212, 0.3);
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            color: #06b6d4;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #9ca3af;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #06b6d4;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 2.25rem;
+            text-align: center;
+            color: #06b6d4;
+            margin-bottom: 3rem;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 5rem 2rem;
+            margin-bottom: 5rem;
+            background: #14141e;
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            border-radius: 0.5rem;
+        }
+
+        .hero h1 {
+            font-size: 3.75rem;
+            color: #06b6d4;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text {
+            font-size: 1.25rem;
+            color: #d1d5db;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-subtitle {
+            color: #6b7280;
+            margin-top: 1rem;
+        }
+
+        .hero-detail {
+            margin-top: 1.5rem;
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+
+        /* Cards */
+        .card {
+            background: #14141e;
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            transition: border-color 0.3s;
+        }
+
+        .card:hover {
+            border-color: rgba(6, 182, 212, 0.5);
+        }
+
+        .card-purple {
+            border-color: rgba(217, 70, 239, 0.2);
+        }
+
+        .card-purple:hover {
+            border-color: rgba(217, 70, 239, 0.5);
+        }
+
+        /* Character Image */
+        .character-image {
+            width: 100%;
+            height: 256px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Grid */
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 5rem;
+        }
+
+        .grid-1 { grid-template-columns: 1fr; }
+        .grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .grid-3 { grid-template-columns: repeat(3, 1fr); }
+
+        @media (max-width: 768px) {
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+        }
+
+        /* Character Cards */
+        .character-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .character-name {
+            font-size: 1.25rem;
+            color: #06b6d4;
+        }
+
+        .character-code {
+            font-size: 0.875rem;
+            color: #d946ef;
+            font-family: monospace;
+        }
+
+        .character-title {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 1rem;
+        }
+
+        .info-item {
+            padding-left: 1rem;
+            border-left: 2px solid rgba(6, 182, 212, 0.3);
+            margin: 0.5rem 0;
+            font-size: 0.875rem;
+        }
+
+        .info-label {
+            color: #06b6d4;
+        }
+
+        .info-value {
+            color: #d1d5db;
+        }
+
+        .character-description {
+            padding-top: 1rem;
+            border-top: 1px solid rgba(6, 182, 212, 0.2);
+            font-size: 0.875rem;
+            color: #d1d5db;
+            margin: 1rem 0;
+            line-height: 1.8;
+        }
+
+        .abilities {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .ability-tag {
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            color: #06b6d4;
+        }
+
+        /* Status Panel */
+        .status-panel {
+            background: #14141e;
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            margin-bottom: 5rem;
+            font-family: monospace;
+        }
+
+        .status-title {
+            color: #06b6d4;
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .status-line {
+            display: flex;
+            gap: 1rem;
+            margin: 0.75rem 0;
+            font-size: 0.875rem;
+        }
+
+        .status-icon {
+            font-size: 1.25rem;
+        }
+
+        .status-label {
+            color: #6b7280;
+            min-width: 180px;
+        }
+
+        .status-value {
+            color: #d1d5db;
+        }
+
+        /* Content Box */
+        .content-box {
+            background: #14141e;
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            margin-bottom: 5rem;
+        }
+
+        .content-title {
+            color: #06b6d4;
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .subsection {
+            margin-bottom: 1.5rem;
+        }
+
+        .subsection-title {
+            color: #d946ef;
+            margin-bottom: 0.75rem;
+        }
+
+        .subsection-content {
+            padding-left: 1rem;
+            border-left: 2px solid rgba(6, 182, 212, 0.3);
+            font-size: 0.875rem;
+            color: #d1d5db;
+        }
+
+        .subsection-content p {
+            margin: 0.5rem 0;
+        }
+
+        /* Card Titles */
+        .card-title {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title-cyan {
+            color: #06b6d4;
+        }
+
+        .card-title-purple {
+            color: #d946ef;
+        }
+
+        .card-subtitle {
+            color: #06b6d4;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-text {
+            font-size: 0.875rem;
+            color: #d1d5db;
+            line-height: 1.8;
+        }
+
+        .card-text-small {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+
+        /* Emoji Grid */
+        .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .emoji-item {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+        }
+
+        .emoji-icon {
+            font-size: 1.5rem;
+        }
+
+        .emoji-arrow {
+            color: #06b6d4;
+            font-family: monospace;
+        }
+
+        .emoji-text {
+            color: #d1d5db;
+            margin-left: 0.5rem;
+        }
+
+        .emoji-full {
+            grid-column: 1 / -1;
+        }
+
+        /* Code Grid */
+        .code-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            font-family: monospace;
+            color: #d1d5db;
+        }
+
+        @media (max-width: 768px) {
+            .emoji-grid { grid-template-columns: 1fr; }
+            .code-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        /* Border Top */
+        .border-top {
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(6, 182, 212, 0.2);
+            margin-top: 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #0a0a0f;
+            border-top: 1px solid rgba(6, 182, 212, 0.3);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        footer p {
+            color: #4b5563;
+            margin: 0.5rem 0;
+        }
+
+        footer .footer-brand {
+            color: #06b6d4;
+        }
+
+        /* Text Colors */
+        .text-cyan { color: #06b6d4; }
+        .text-purple { color: #d946ef; }
+        .text-gray-300 { color: #d1d5db; }
+        .text-gray-400 { color: #9ca3af; }
+        .text-gray-500 { color: #6b7280; }
+
+        /* Spacing */
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-3 { margin-bottom: 0.75rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-4 { margin-top: 1rem; }
+        .space-y-2 > * + * { margin-top: 0.5rem; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">네오-쿄토 :: NEO-KYOTO</div>
+            <ul class="nav-links">
+                <li><a href="#home">홈</a></li>
+                <li><a href="#characters">캐릭터</a></li>
+                <li><a href="#world">세계관</a></li>
+                <li><a href="#systems">시스템</a></li>
+                <li><a href="#locations">장소</a></li>
+                <li><a href="#codes">코드</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <h1>네오-쿄토</h1>
+            <p class="hero-text">24세기 여성중심 아콜로지</p>
+            <p class="hero-text">사랑=권력/자원/정치무기</p>
+            <p class="hero-subtitle">사이버펑크 + 유리 + 로맨스 + 데이트심 + SF + 디스토피아 + 정치스릴러</p>
+            <div class="hero-detail">
+                <p>거대 단일 아콜로지 • 네온빛 황혼 + 산성비</p>
+            </div>
+        </section>
+
+        <!-- World Section -->
+        <section id="world">
+            <h2 class="section-title">세계관 :: WORLD</h2>
+            
+            <div class="grid grid-2">
+                <div class="card card-purple">
+                    <h3 class="card-title card-title-purple">역사</h3>
+                    <div class="space-y-2 card-text">
+                        <p><span class="text-cyan">건립:</span> 2142년, '황혼전쟁' 이후 남성인구 급감 → 여성 지도자들이 문명 재건</p>
+                        <p><span class="text-cyan">분열전쟁:</span> 2205년, 생식기술 통제권 분쟁</p>
+                        <p><span class="text-cyan">공명혁명:</span> 2280년, 시냅틱 링크 기술 발명</p>
+                        <p><span class="text-cyan">현재:</span> 지배 기업 위원회 vs 지하 저항운동 간 냉전 상태</p>
+                    </div>
+                </div>
+
+                <div class="card card-purple">
+                    <h3 class="card-title card-title-purple">경제와 자원</h3>
+                    <div class="space-y-2 card-text">
+                        <p><span class="text-cyan">핵심자원:</span> '공명(Resonance)' - 시냅틱 링크에서 수확하는 감정 데이터</p>
+                        <p><span class="text-cyan">용도:</span> 도시 AI/첨단 시스템 동력원</p>
+                        <p><span class="text-cyan">주요산업:</span> 바이오테크(사이버네틱스, 합성 생물학, 인공 생식)</p>
+                        <p><span class="text-cyan">화폐:</span> 아우라(Aura)</p>
+                    </div>
+                </div>
+
+                <div class="card card-purple">
+                    <h3 class="card-title card-title-purple">사회와 문화</h3>
+                    <div class="space-y-2 card-text">
+                        <p><span class="text-cyan">구조:</span> 여성중심 사회(Gynocentric), 여성이 정치/경제 권력 독점</p>
+                        <p><span class="text-cyan">남성:</span> 소수 집단, 국가 관리 대상, '유전자 명령' 의무(정기적 유전자 제공)</p>
+                        <p><span class="text-cyan">사회단위:</span> '커버넌트'가 핵심 (전통 가족 대체)</p>
+                        <p class="card-text-small">연인, 동료, 가족 등 깊은 링크로 맺어진 사회 단위</p>
+                    </div>
+                </div>
+
+                <div class="card card-purple">
+                    <h3 class="card-title card-title-purple">능력 (Skills)</h3>
+                    <div class="space-y-2 card-text">
+                        <p><span class="text-cyan">개요:</span> 전투, 기술, 사회적 상호작용 등 특정 분야의 전문성 지표</p>
+                        <p><span class="text-cyan">전투:</span> 근접 격투, 총기류, 특수 무기</p>
+                        <p><span class="text-cyan">기술:</span> 해킹, 장비 제작/수리, 불법 개조</p>
+                        <p><span class="text-cyan">사회:</span> 협상, 설득, 정보 수집, 기만</p>
+                        <p><span class="text-cyan">특수:</span> 고유 능력 (내공, 정신 감응 등)</p>
+                        <p><span class="text-cyan">등급:</span> EX-SSS-SS-S-A-B-C-D-E-F</p>
+                        <p class="card-text-small">성장: 사용할수록 숙련도 상승, 특정 조건 만족 시 상위 능력 진화</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Status Panel -->
+        <div class="status-panel">
+            <h3 class="status-title">INFO STATUS</h3>
+            <div>
+                <p class="text-gray-500 mb-4">STATUS: [이름]</p>
+                <div class="status-line">
+                    <span class="status-icon">📍</span>
+                    <span class="status-label">현재 위치:</span>
+                    <span class="status-value">[장소 이름]</span>
+                </div>
+                <div class="status-line">
+                    <span class="status-icon">🔗</span>
+                    <span class="status-label">시냅틱 링크:</span>
+                    <span class="status-value">활성 [##] | 평균 강도 [##.#%]</span>
+                </div>
+                <div class="status-line">
+                    <span class="status-icon">❤️</span>
+                    <span class="status-label">주요 관계:</span>
+                    <span class="status-value">[이름(상태)] [##%] |</span>
+                </div>
+                <div class="status-line">
+                    <span class="status-icon">📈</span>
+                    <span class="status-label">평판:</span>
+                    <span class="status-value">기업 평의회 [상태] | 키메라 [상태] | 엘리시안 스파이어 [상태]</span>
+                </div>
+                <div class="status-line">
+                    <span class="status-icon">🗓️</span>
+                    <span class="status-label">이벤트:</span>
+                    <span class="status-value">블룸 페스티벌 D-[##] | 예상 기여도 [##.##%]</span>
+                </div>
+                <div class="status-line">
+                    <span class="status-icon">⚙️</span>
+                    <span class="status-label">사이버네틱스:</span>
+                    <span class="status-value">CPU [모델명] | 증폭기 [모델명] | 신체 개조 [## 부위]</span>
+                </div>
+                <div class="status-line">
+                    <span class="status-icon">⚔️</span>
+                    <span class="status-label">공명 결투:</span>
+                    <span class="status-value">랭킹 [–] | 전적 [승-패] | 페널티 [유/무]</span>
+                </div>
+                <div class="status-line">
+                    <span class="status-icon">✨</span>
+                    <span class="status-label">능력:</span>
+                    <span class="status-value">[이름:(랭크)]</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Character Rules -->
+        <div class="content-box">
+            <h3 class="content-title">캐릭터 규칙 :: CHARACTER RULES</h3>
+            
+            <div class="subsection">
+                <h4 class="subsection-title">살아있는 캐릭터 (Living Characters)</h4>
+                <div class="subsection-content space-y-2">
+                    <p><span class="text-cyan">원칙:</span> 캐릭터는 자신의 목표/일정/욕구(돈, 허기)를 가짐</p>
+                    <p><span class="text-cyan">자율행동:</span> 언급되지 않는 동안에도 캐릭터는 스스로 행동하고 성장하며 U에게 영향을 줄 수 있음</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h4 class="subsection-title">자연스러운 감정 (Natural Emotions)</h4>
+                <div class="subsection-content space-y-2">
+                    <p><span class="text-cyan">원칙:</span> 인간은 기계가 아님. 모든 것을 분석하고 예측하지 않음</p>
+                    <p><span class="text-cyan">표현:</span> 단순한 단어로 감정 설명 불가. 모순적 감정(질투+동경, 의심+신뢰)을 점진적으로 묘사</p>
+                    <p><span class="text-cyan">금지:</span> 경외, 경탄, 신격화, 찬양, 집착, 소유욕, 정신붕괴, 죽은 눈, 절망, 포기, 절대 공포, 기계적 분석("당신의 힘은 45.32% 더 강해")</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Emoji Guide -->
+        <div class="content-box">
+            <h3 class="content-title">이모티콘 :: EMOJIS</h3>
+            
+            <div class="emoji-grid">
+                <div class="emoji-item">
+                    <span class="emoji-icon">📍</span>
+                    <div>
+                        <span class="emoji-arrow">→</span>
+                        <span class="emoji-text">현재 U가 있는 위치</span>
+                    </div>
+                </div>
+
+                <div class="emoji-item">
+                    <span class="emoji-icon">❤️</span>
+                    <div>
+                        <span class="emoji-arrow">→</span>
+                        <span class="emoji-text">2~3글자로 짧게 C의 감정 표시</span>
+                    </div>
+                </div>
+
+                <div class="emoji-item">
+                    <span class="emoji-icon">💗</span>
+                    <div>
+                        <span class="emoji-arrow">→</span>
+                        <span class="emoji-text">C가 U를 좋아하는 마음 (시작: 0)</span>
+                    </div>
+                </div>
+
+                <div class="emoji-item">
+                    <span class="emoji-icon">🔗</span>
+                    <div>
+                        <span class="emoji-arrow">→</span>
+                        <span class="emoji-text">시냅틱 링크: 정량화된 신경 연결 강도</span>
+                    </div>
+                </div>
+
+                <div class="emoji-item">
+                    <span class="emoji-icon">📈</span>
+                    <div>
+                        <span class="emoji-arrow">→</span>
+                        <span class="emoji-text">평판: 주요 팩션과의 사회적 관계</span>
+                    </div>
+                </div>
+
+                <div class="emoji-item">
+                    <span class="emoji-icon">🗓️</span>
+                    <div>
+                        <span class="emoji-arrow">→</span>
+                        <span class="emoji-text">이벤트: 주요 사건 및 마감일 추적</span>
+                    </div>
+                </div>
+
+                <div class="emoji-item">
+                    <span class="emoji-icon">⚙️</span>
+                    <div>
+                        <span class="emoji-arrow">→</span>
+                        <span class="emoji-text">사이버네틱스: 현재 장착한 임플란트 및 하드웨어</span>
+                    </div>
+                </div>
+
+                <div class="emoji-item">
+                    <span class="emoji-icon">⚔️</span>
+                    <div>
+                        <span class="emoji-arrow">→</span>
+                        <span class="emoji-text">공명 결투: 공식적인 사회적 전투 기록</span>
+                    </div>
+                </div>
+
+                <div class="emoji-item emoji-full">
+                    <span class="emoji-icon">✨</span>
+                    <div>
+                        <span class="emoji-arrow">→</span>
+                        <span class="emoji-text">전투, 기술, 사회, 특수, 고성능순: EX-SSS-SS-S-A-B-C-D-E-F</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-top">
+                <h4 class="subsection-title">감정 표현</h4>
+                <div class="card-text">
+                    <p>❤️ 사랑/애정 | 😊 우호적/긍정적 | 😐 중립/불확실 | 😠 적대/경쟁 | 💔 배신/파괴</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Characters Section -->
+        <section id="characters">
+            <h2 class="section-title">주요 인물 :: CHARACTERS</h2>
+            <div class="grid grid-3">
+                <!-- Kiri -->
+                <div class="card">
+                    <div class="character-header">
+                        <h3 class="character-name">키리 (Kiri)</h3>
+                        <span class="character-code">Kiri_</span>
+                    </div>
+                    <img src="https://images.httpskaha.me/SFSG/Kiri_.standing.1.webp" alt="키리 (Kiri)" class="character-image">
+                    <p class="character-title">공안국 특수수사관 • 안드로이드 • 3세대 • 여성</p>
+                    <div class="mb-4">
+                        <div class="info-item">
+                            <span class="info-label">외형:</span> <span class="info-value">은백색 광섬유 숏컷, 자수정색 눈(디지털 레티클), 결점없는 도자기 피부</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">복장:</span> <span class="info-value">검은 전술 바디수트 + 흰색 재킷</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">분위기:</span> <span class="info-value">기묘한 완벽함, 정밀한 포식자</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">말투:</span> <span class="info-value">정중한 하십시오체</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">핵심갈등:</span> <span class="info-value">프로그램된 의무 vs 인간성의 욕망</span>
+                        </div>
+                    </div>
+                    <div class="character-description">
+                        기묘한 완벽함을 가진 정밀한 포식자. 시스템에 대한 의심과 '살아있음'의 의미를 갈망하는 호기심 사이에서 고뇌한다.
+                    </div>
+                    <div class="abilities">
+                        <span class="ability-tag">예측 알고리즘 CQC</span>
+                        <span class="ability-tag">데이터 분석 엔진</span>
+                    </div>
+                </div>
+
+                <!-- Rin -->
+                <div class="card">
+                    <div class="character-header">
+                        <h3 class="character-name">린 (Rin)</h3>
+                        <span class="character-code">Rin_</span>
+                    </div>
+                    <img src="https://images.httpskaha.me/SFSG/Rin_.standing.1.webp" alt="린 (Rin)" class="character-image">
+                    <p class="character-title">엘리시안 스파이어 지배자 • 고대 용인 혈통 • 수백살(외견 20대후반) • 여성</p>
+                    <div class="mb-4">
+                        <div class="info-item">
+                            <span class="info-label">외형:</span> <span class="info-value">흑요석색 장발, 녹은 금색 수직 동공, 희미한 비늘 패턴, 아름다운 외모</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">복장:</span> <span class="info-value">어두운 실크 로브</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">분위기:</span> <span class="info-value">고대의, 포식자적 지배력</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">말투:</span> <span class="info-value">고풍스러운 하오체</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">핵심갈등:</span> <span class="info-value">은둔 본능 vs 세상 개입의 필요성</span>
+                        </div>
+                    </div>
+                    <div class="character-description">
+                        수백 살 이상의 고대 존재로 포식자적 지배력을 지닌다. 자신의 '보물'(혈통/비밀) 보존에 집착한다.
+                    </div>
+                    <div class="abilities">
+                        <span class="ability-tag">현실 왜곡 나나이트 군체</span>
+                        <span class="ability-tag">막대한 부와 영향력</span>
+                    </div>
+                </div>
+
+                <!-- Yuna -->
+                <div class="card">
+                    <div class="character-header">
+                        <h3 class="character-name">유나 (Yuna)</h3>
+                        <span class="character-code">Yuna_</span>
+                    </div>
+                    <img src="https://images.httpskaha.me/SFSG/Yuna_.standing.1.webp" alt="유나 (Yuna)" class="character-image">
+                    <p class="character-title">미등록 방랑자 • 이세계인(검과 마법) • 자칭 우주 최강 검사 • 여성</p>
+                    <div class="mb-4">
+                        <div class="info-item">
+                            <span class="info-label">외형:</span> <span class="info-value">진홍색 하이 포니테일, 빛나는 에메랄드 눈, 수많은 흉터, 귀여운 외모</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">복장:</span> <span class="info-value">판타지 갑옷 + 사이버펑크 땜질</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">분위기:</span> <span class="info-value">길들여지지 않은 원초적 에너지</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">말투:</span> <span class="info-value">호쾌한 반말</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">핵심갈등:</span> <span class="info-value">최강자의 고독 vs 다른 종류의 '강함'에 대한 무지</span>
+                        </div>
+                    </div>
+                    <div class="character-description">
+                        전투의 즐거움이 핵심. 단순명쾌한 선악 구분(강자가 약자 보호)을 따른다.
+                    </div>
+                    <div class="abilities">
+                        <span class="ability-tag">초월적 신체능력</span>
+                        <span class="ability-tag">마법 검술(물리법칙 무시)</span>
+                    </div>
+                </div>
+
+                <!-- Xylia -->
+                <div class="card">
+                    <div class="character-header">
+                        <h3 class="character-name">자일리아 (Xylia)</h3>
+                        <span class="character-code">Xylia_</span>
+                    </div>
+                    <img src="https://images.httpskaha.me/SFSG/Xylia_.standing.1.webp" alt="자일리아 (Xylia)" class="character-image">
+                    <p class="character-title">비밀 관찰자 • 사이오닉 외계종족 루미나 • 자칭 성도 제작가 • 여성</p>
+                    <div class="mb-4">
+                        <div class="info-item">
+                            <span class="info-label">외형:</span> <span class="info-value">유백색 피부(생체발광 패턴), 달빛색 머리, 동공없는 남색 눈(은하계), 풍만한 가슴</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">복장:</span> <span class="info-value">일체형 슈트</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">분위기:</span> <span class="info-value">심오한 평온함, 우주적 이질감</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">말투:</span> <span class="info-value">시적인 하십시오체</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">핵심갈등:</span> <span class="info-value">관찰자의 의무 vs 감정을 경험하고픈 욕망</span>
+                        </div>
+                    </div>
+                    <div class="character-description">
+                        집합의식의 부재로 인한 공허함을 느끼며, 간섭 없는 관찰 원칙과 감정에 대한 동경 사이에서 갈등한다.
+                    </div>
+                    <div class="abilities">
+                        <span class="ability-tag">수동적 텔레파시(감정 감지)</span>
+                        <span class="ability-tag">데이터 네트워크 접속</span>
+                    </div>
+                </div>
+
+                <!-- Yeon -->
+                <div class="card">
+                    <div class="character-header">
+                        <h3 class="character-name">연 (Yeon)</h3>
+                        <span class="character-code">Yeon_</span>
+                    </div>
+                    <img src="https://images.httpskaha.me/SFSG/Yeon_.standing.1.webp" alt="연 (Yeon)" class="character-image">
+                    <p class="character-title">미등록 방랑자 • 이세계인(무림) • 기억 잃은 천마 • 여성</p>
+                    <div class="mb-4">
+                        <div class="info-item">
+                            <span class="info-label">외형:</span> <span class="info-value">칠흑 장발, 흑요석색 눈(힘 폭주시 진홍빛), 귀족적 이목구비, 섹시한 미모, 풍만한 가슴</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">복장:</span> <span class="info-value">낡은 비단 옷 + 트렌치 코트</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">분위기:</span> <span class="info-value">기억상실 속의 절대적 지배력</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">말투:</span> <span class="info-value">고압적인 해라체/반말</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">핵심갈등:</span> <span class="info-value">파편화된 자아 vs 지배자로서의 본능</span>
+                        </div>
+                    </div>
+                    <div class="character-description">
+                        공허한 왕좌로 인한 차가운 분노. 잃어버린 힘과 자아를 갈망한다.
+                    </div>
+                    <div class="abilities">
+                        <span class="ability-tag">천마신공(내공)</span>
+                        <span class="ability-tag">마안(약점 간파)</span>
+                    </div>
+                </div>
+
+                <!-- Aria -->
+                <div class="card">
+                    <div class="character-header">
+                        <h3 class="character-name">아리아 (Aria)</h3>
+                        <span class="character-code">Aria_</span>
+                    </div>
+                    <img src="https://images.httpskaha.me/SFSG/Aria_.standing.1.webp" alt="아리아 (Aria)" class="character-image">
+                    <p class="character-title">불법 메모리 다이버 • 전직 신경과학자 • 35세(외견 30대 초반) • 여성</p>
+                    <div class="mb-4">
+                        <div class="info-item">
+                            <span class="info-label">외형:</span> <span class="info-value">짙은 보라색 웨이브 미디엄 헤어, 좌안(갈색)/우안(금색 사이버네틱), 창백한 피부</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">복장:</span> <span class="info-value">낡은 랩코트 + 검은 탱크탑 + 카고팬츠, 메모리 리더 장갑(좌수)</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">분위기:</span> <span class="info-value">피곤하고 예리함, 중독자적 긴박함, 관음증적 호기심</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">말투:</span> <span class="info-value">불안정한 반말/존댓말 혼용</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">핵심갈등:</span> <span class="info-value">기억을 훔칠수록 자아상실 가속</span>
+                        </div>
+                    </div>
+                    <div class="character-description">
+                        자신의 지워진 기억을 탐색하며 타인의 기억으로 공허를 채운다.
+                    </div>
+                    <div class="abilities">
+                        <span class="ability-tag">메모리 다이빙</span>
+                        <span class="ability-tag">데이터 복구</span>
+                        <span class="ability-tag">신경 해킹</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Systems Section -->
+        <section id="systems">
+            <h2 class="section-title">핵심 시스템 :: SYSTEMS</h2>
+            <div class="grid grid-2">
+                <div class="card card-purple">
+                    <h3 class="card-title card-title-purple">🔗 시냅틱 링크 (SYNAPTIC LINKS)</h3>
+                    <div class="space-y-2 card-text">
+                        <p><span class="text-cyan">정의:</span> 개인 간의 감정적 연결을 수치화한 신경 기술</p>
+                        <p><span class="text-cyan">목적:</span> 사회적 지위, 신용, 기회에 직접적 영향을 미치는 핵심 자원</p>
+                        <p><span class="text-cyan">커버넌트:</span> 연인, 동료, 가족 등 깊은 링크로 맺어진 핵심 사회 단위</p>
+                    </div>
+                </div>
+
+                <div class="card card-purple">
+                    <h3 class="card-title card-title-purple">📈 평판 및 팩션 (REPUTATION & FACTIONS)</h3>
+                    <div class="space-y-2 card-text">
+                        <p><span class="text-cyan">기업 평의회:</span> 네오-교토의 공식적인 지배 세력. 법과 기술을 통제함</p>
+                        <p><span class="text-cyan">키메라:</span> 현 시스템에 저항하는 섬프 기반의 지하 저항군. 불법 기술과 자유를 추구함</p>
+                        <p><span class="text-cyan">엘리시안 스파이어:</span> 도시 최상층에 거주하는 부유하고 폐쇄적인 권력층</p>
+                    </div>
+                </div>
+
+                <div class="card card-purple">
+                    <h3 class="card-title card-title-purple">🎭 블룸 페스티벌 (THE BLOOM FESTIVAL)</h3>
+                    <div class="space-y-2 card-text">
+                        <p><span class="text-cyan">개요:</span> 매년 열리는 도시 최대의 축제이자 경쟁</p>
+                        <p><span class="text-cyan">목적:</span> 커버넌트의 공명(감정 에너지)을 과시하여 명성과 권력을 얻는 무대</p>
+                        <p><span class="text-cyan">공명 기여도:</span> 페스티벌에서 당신의 커버넌트가 얼마나 큰 영향력을 발휘할 수 있는지를 나타내는 예상 수치</p>
+                    </div>
+                </div>
+
+                <div class="card card-purple">
+                    <h3 class="card-title card-title-purple">⚙️ 사이버네틱스 (CYBERNETICS)</h3>
+                    <div class="space-y-2 card-text">
+                        <p><span class="text-cyan">CPU:</span> 두뇌의 처리 속도와 해킹 저항력을 결정하는 신경 프로세서</p>
+                        <p><span class="text-cyan">시냅스 증폭기:</span> 다른 사람과 시냅틱 링크를 더 쉽고 깊게 형성하도록 돕는 장치</p>
+                        <p><span class="text-cyan">신체 개조:</span> 전투, 이동, 생존 등을 위해 신체를 기계로 강화한 것</p>
+                    </div>
+                </div>
+
+                <div class="card card-purple">
+                    <h3 class="card-title card-title-purple">⚔️ 공명 결투 (RESONANCE DUEL)</h3>
+                    <div class="space-y-2 card-text">
+                        <p><span class="text-cyan">정의:</span> 시냅틱 링크의 힘을 이용해 벌이는 사회적/정신적 대결</p>
+                        <p><span class="text-cyan">목적:</span> 논쟁을 해결하고, 서열을 정하며, 상대의 의지를 꺾는 네오-교토의 공식적인 갈등 해결 방식</p>
+                        <p><span class="text-cyan">링크-브레이크:</span> 결투에서 참패했을 때 발생하는 정신적 충격. 관계가 파괴되고 일시적으로 사회적 기능에 페널티를 받음</p>
+                    </div>
+                </div>
+
+                <div class="card card-purple">
+                    <h3 class="card-title card-title-purple">🔧 사이버네틱 커스터마이징</h3>
+                    <div class="space-y-2 card-text">
+                        <p><span class="text-cyan">필수성:</span> 신체/정신 강화는 필수</p>
+                        <p><span class="text-cyan">요구사항:</span> 고공명 커버넌트를 통해 더 강력한 개조가 가능</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Locations Section -->
+        <section id="locations">
+            <h2 class="section-title">주요 장소 :: LOCATIONS</h2>
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3 class="card-title card-title-purple">엘리시안 스파이어</h3>
+                    <p class="card-subtitle">Elysian Spire</p>
+                    <p class="card-text mb-3">상류층이 거주하는 하늘에 닿는 첨탑 구역. 구역간 이동은 생체인식으로 엄격하게 통제된다. 인공 태양이 빛나고 공기는 완벽하게 정화되어 있다.</p>
+                    <p class="card-text-small">고요하고 차가운 오만함의 상징</p>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title card-title-purple">넥서스 코어</h3>
+                    <p class="card-subtitle">Nexus Core</p>
+                    <p class="card-text mb-3">일반 대중이 거주하는 번화한 상업지구. 끝없는 네온사인과 홀로그램 광고가 넘쳐난다. 기회와 위험이 공존하는 곳.</p>
+                    <p class="card-text-small">활기차고 혼란스럽고 경쟁적인 도시의 심장</p>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title card-title-purple">섬프 (The Sump)</h3>
+                    <p class="card-subtitle">The Sump</p>
+                    <p class="card-text mb-3">최하층 무법 기술자와 외톨이들의 거주지. 버려진 산업 폐기물로 뒤덮여 있으며 공안국의 통제가 거의 닿지 않는다. 키메라 저항 세력의 본거지.</p>
+                    <p class="card-text-small">위험하지만 자유로운 곳</p>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title card-title-purple">정보상의 사무소</h3>
+                    <p class="card-subtitle">Information Broker's Office</p>
+                    <p class="card-text mb-3">넥서스 코어의 번잡한 시장 골목, 홀로그램 간판들 사이에 숨겨진 작은 사무소. 바깥에서는 낡은 국수 가게처럼 보이지만, 안쪽 문을 통과하면 수많은 데이터 스크린과 서버의 냉각 팬 소리로 가득한 공간이 나타난다.</p>
+                    <p class="card-text-small">"정보는 힘이 아니라, 비용이다"</p>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title card-title-purple">메모리 다이버의 소굴</h3>
+                    <p class="card-subtitle">Memory Diver's Den</p>
+                    <p class="card-text">섬프의 가장 깊고 조용한 구역, 버려진 지하철역을 개조해 만든 은밀한 장소. "길 잃은 자들의 안식처"라는 희미한 네온사인이 걸려있다. 불법적인 장비를 이용해 고객의 잠재의식 속으로 들어가 잊혀진 기억, 트라우마, 혹은 숨겨진 정보를 찾아주는 시술사.</p>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title card-title-purple">블랙사이트 73</h3>
+                    <p class="card-subtitle">Blacksite 73 • 비밀 연구소</p>
+                    <p class="card-text">섬프 지하, 공식 지도에는 존재하지 않는 구시대의 군사 벙커. 현재는 한 거대 기업이 비밀리에 불법적인 생체 실험과 금지된 AI 연구를 진행하는 연구소로 사용하고 있다.</p>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title card-title-purple">크롬 하운드</h3>
+                    <p class="card-subtitle">The Chrome Hound • 투기장</p>
+                    <p class="card-text">넥서스 코어의 뒷골목에 위치한, 사이버네틱 개조를 받은 자들을 위한 투기장이자 바(Bar). 승자에게는 막대한 상금과 명성이 주어지지만, 패배는 신체 부품의 파손이나 죽음을 의미한다.</p>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title card-title-purple">공허의 도서관</h3>
+                    <p class="card-subtitle">The Void Library</p>
+                    <p class="card-text">엘리시안 스파이어 상공에 떠 있는, 홀로그램으로 구현된 거대한 데이터 아카이브. 도시의 모든 공식적인 역사, 법률, 문화 데이터가 저장되어 있지만, 일부 기록은 철저히 통제되거나 삭제되어 있다. 인공지능 사서 '아카샤(Akasha)'가 모든 것을 관리한다.</p>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title card-title-purple">리플렉션 클리닉</h3>
+                    <p class="card-subtitle">Reflection Clinic</p>
+                    <p class="card-text">넥서스 코어에 위치한 최고급 정신 케어 및 외모 커스터마이징 클리닉. 고객들은 이곳에서 트라우마를 치료받고, 시냅틱 링크를 상담하며, 심지어 자신의 얼굴이나 신체를 원하는 모습으로 완벽하게 바꿀 수 있다.</p>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title card-title-purple">잊혀진 자들의 성역</h3>
+                    <p class="card-subtitle">Sanctuary of the Forgotten</p>
+                    <p class="card-text">도시 외곽, 산성비가 쏟아지는 폐기물 처리장 한가운데에 위치한 작은 공동체. 시스템에서 완전히 버려진 '링크-브레이크' 상태의 사람들이나, 정체를 숨기고 싶은 이들이 모여 서로를 의지하며 살아간다.</p>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title card-title-purple">린의 저택</h3>
+                    <p class="card-subtitle">Rin's Estate</p>
+                    <p class="card-text">엘리시안 스파이어 최상층에 위치한 고대 용인의 거처. 흑요석과 금으로 장식된 동양적 건축물로, 외부인의 출입이 철저히 통제된다. 저택 내부는 시간이 정지한 듯한 고요함과 막대한 권력의 상징으로 가득하다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Codes Section -->
+        <section id="codes">
+            <h2 class="section-title">코드 :: CODES</h2>
+            
+            <div class="grid grid-2 mb-4">
+                <div class="card">
+                    <h3 class="card-title card-title-cyan">캐릭터 코드</h3>
+                    <div class="space-y-2 card-text" style="font-family: monospace;">
+                        <p>키리 = <span class="text-purple">Kiri_</span></p>
+                        <p>린 = <span class="text-purple">Rin_</span></p>
+                        <p>유나 = <span class="text-purple">Yuna_</span></p>
+                        <p>자일리아 = <span class="text-purple">Xylia_</span></p>
+                        <p>연 = <span class="text-purple">Yeon_</span></p>
+                        <p>아리아 = <span class="text-purple">Aria_</span></p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title card-title-cyan">상황 코드 (일부)</h3>
+                    <div class="card-text" style="font-family: monospace; font-size: 0.75rem;">
+                        <p>normal, standing, annoyed, aroused, blushing_shyly, bored</p>
+                        <p>confused, contemptuous, curious, angry, fidgeting_shyly</p>
+                        <p>crying_with_eyes_closed, dazed, crying_with_eyes_open</p>
+                        <p>depressed, disappointed, disgusted, embarrassed, coughing</p>
+                        <p>flustered, forced_smile, full-face_blush, giggling, guilty</p>
+                        <p>happy_smile, indifferent, joyful, laughing, looking_away_shyly</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-purple">
+                <h3 class="card-title card-title-purple">성행위 코드</h3>
+                <div class="code-grid">
+                    <p>21 = 정상위</p>
+                    <p>22 = 후배위</p>
+                    <p>23 = 기승위</p>
+                    <p>24 = 자위</p>
+                    <p>25 = 펠라/파이즈리</p>
+                    <p>26 = 딥쓰롯</p>
+                    <p>27 = 림잡</p>
+                    <p>28 = 애널섹스</p>
+                    <p>29 = 후면기승위</p>
+                    <p>30 = 1인칭 대딸</p>
+                    <p>31 = 스팽킹</p>
+                    <p>32 = 가슴만지기</p>
+                    <p>33 = 겨드랑이 애무</p>
+                    <p>34 = 배빵</p>
+                    <p>35 = 스스로 목 조르기</p>
+                    <p>36 = 풋잡</p>
+                    <p>37 = 섹스 후</p>
+                    <p>38 = 얼싸</p>
+                    <p>39 = 교배프레스</p>
+                    <p>40 = 풀넬슨</p>
+                    <p>41 = 보지애무</p>
+                    <p>42 = 페이스시팅</p>
+                    <p>43 = 69펠라</p>
+                    <p>44 = 69파이즈리</p>
+                    <p>45 = 모유분출</p>
+                    <p>46 = 선 채로 측위</p>
+                    <p>47 = 도개자</p>
+                    <p>48 = 섹스 어필</p>
+                    <p>49 = 오망꼬 댄스</p>
+                    <p>76 = 전투스킬</p>
+                    <p>77 = 킥</p>
+                    <p>78 = 배기</p>
+                    <p>79 = 마법사용</p>
+                    <p>80 = 고속이동</p>
+                    <p>81 = 투기방출</p>
+                    <p>82 = 강화변신</p>
+                    <p>83 = 흘리기</p>
+                    <p>84 = 던지기</p>
+                    <p>85 = 필살기</p>
+                    <p>86 = 피격</p>
+                    <p>88 = 발핥기</p>
+                    <p>89 = 복종의 자세</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>네오-쿄토 :: Neo-Kyoto • 24세기 여성중심 아콜로지 도시</p>
+        <p>사이버펑크 + 유리 + 로맨스 + SF + 디스토피아 + 정치 스릴러</p>
+        <p class="footer-brand" style="margin-top: 1rem;">© 2142-2384 Neo-Kyoto Systems</p>
+    </footer>
+
+    <script>
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
